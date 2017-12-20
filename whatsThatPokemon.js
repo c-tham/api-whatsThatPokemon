@@ -11,9 +11,9 @@ $(document).ready(function(){
 
     $('#containerLeft').on('click', 'img', function() {
         var id = $(this).attr('id');
-        console.log(url_info+id);
+        // console.log(url_info+id);
         $.get(url_info+id, function(pokemon) {
-            console.log(pokemon);
+            console.log(pokemon.types);
             var HTMLstring = `
                 <div id='groupPhoto'>
                     <img src='${pokemon.sprites.front_default}'>
@@ -22,9 +22,13 @@ $(document).ready(function(){
                 <h1>Name: ${pokemon.name}</h1>
                 <p>Height: ${pokemon.height}</p>
                 <p>Weight: ${pokemon.weight}</p>
-                <p>Species: ${pokemon.species.name}</p>
+                <p>Types:<ul>
             `
-            $('#containerRight').html(HTMLstring);
+            var HTMLtypes = '';
+            for (var z = 0; z < pokemon.types.length; z++) {
+                HTMLtypes += `<li>${pokemon.types[z].type.name}</li>`
+            }
+            $('#containerRight').html(HTMLstring+HTMLtypes+'</ul>');
         },'json');
     } )
 
